@@ -30,8 +30,19 @@ class ViewController: UIViewController {
         }
     }
     
+    // MARK: UIViewController
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.addGradient(with: [.red, .green])
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
         segue.destination.transitioningDelegate = self
+        segue.destination.view.addGradient(with: [.blue, .yellow])
     }
     
 }
@@ -93,6 +104,19 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return transition
+    }
+    
+}
+
+// MARK: UIView
+
+extension UIView {
+    
+    func addGradient(with colors: [UIColor]) {
+        let gradient = CAGradientLayer()
+        gradient.colors = colors.map { $0.cgColor }
+        gradient.frame = bounds
+        layer.addSublayer(gradient)
     }
     
 }
